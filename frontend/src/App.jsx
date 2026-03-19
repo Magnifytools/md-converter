@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { FileText, Globe, AlertCircle } from 'lucide-react';
 import FileUploader from './components/FileUploader';
 import UrlInput from './components/UrlInput';
@@ -6,8 +6,21 @@ import MarkdownPreview from './components/MarkdownPreview';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('file');
-  const [markdown, setMarkdown] = useState('');
+  const [results, setResults] = useState([]);
   const [error, setError] = useState('');
+
+  const addResults = useCallback((newResults) => {
+    setResults(newResults);
+    setError('');
+  }, []);
+
+  const updateResult = useCallback((id, markdown) => {
+    setResults(prev => prev.map(r => r.id === id ? { ...r, markdown } : r));
+  }, []);
+
+  const removeResult = useCallback((id) => {
+    setResults(prev => prev.filter(r => r.id !== id));
+  }, []);
 
   return (
     <div className="min-h-screen bg-dark p-4 md:p-8">
@@ -54,9 +67,9 @@ export default function App() {
         {/* Input area */}
         <div className="bg-surface rounded-lg p-6">
           {activeTab === 'file' ? (
-            <FileUploader onResult={setMarkdown} onError={setError} />
+            <FileUploader onResult={addResults} onError={setError} />
           ) : (
-            <UrlInput onResult={setMarkdown} onError={setError} />
+            <UrlInput onResult={addResults} onError={setError} />
           )}
         </div>
 
@@ -68,9 +81,13 @@ export default function App() {
           </div>
         )}
 
-        {/* Result */}
-        {markdown && (
-          <MarkdownPreview markdown={markdown} onChange={setMarkdown} />
+        {/* Results */}
+        {results.length > 0 && (
+          <MarkdownPreview
+            results={results}
+            onUpdateResult={updateResult}
+            onRemoveResult={removeResult}
+          />
         )}
 
         {/* Footer */}

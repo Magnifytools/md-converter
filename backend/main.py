@@ -82,6 +82,31 @@ async def convert_file(file: UploadFile = File(...)):
     return {"markdown": markdown, "filename": filename}
 
 
+@app.post("/api/convert/files")
+async def convert_files_batch(files: list[UploadFile] = File(...)):
+    results = []
+    for file in files:
+        filename = file.filename or "file.txt"
+        ext = os.path.splitext(filename)[1].lower()
+
+        if ext not in CONVERTERS:
+            results.append({"filename": filename, "markdown": "", "error": f"Tipo no soportado: {ext}"})
+            continue
+
+        content = await file.read()
+        if len(content) > MAX_FILE_SIZE:
+            results.append({"filename": filename, "markdown": "", "error": "Excede 20MB"})
+            continue
+
+        try:
+            markdown = CONVERTERS[ext](content, filename)
+            results.append({"filename": filename, "markdown": markdown, "error": None})
+        except Exception as e:
+            results.append({"filename": filename, "markdown": "", "error": str(e)})
+
+    return {"results": results}
+
+
 @app.post("/api/convert/url")
 def convert_url(req: UrlRequest):
     url = req.url.strip()
