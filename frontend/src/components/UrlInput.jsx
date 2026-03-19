@@ -2,6 +2,16 @@ import { useState } from 'react';
 import { Globe, Code, Loader2, ArrowRight, List } from 'lucide-react';
 import { convertUrl, convertUrls, convertHtml } from '../lib/api';
 
+function filenameFromUrl(url) {
+  try {
+    const u = new URL(url);
+    const path = u.pathname.replace(/\/$/, '').split('/').pop();
+    return path || u.hostname;
+  } catch {
+    return url.slice(0, 40);
+  }
+}
+
 export default function UrlInput({ onResult, onError }) {
   const [mode, setMode] = useState('url');
   const [url, setUrl] = useState('');
@@ -16,10 +26,15 @@ export default function UrlInput({ onResult, onError }) {
 
     try {
       const result = await convertUrl(url.trim());
-      onResult(result.markdown);
+      onResult([{
+        id: crypto.randomUUID(),
+        filename: filenameFromUrl(url.trim()),
+        markdown: result.markdown,
+        source: 'url',
+      }]);
     } catch (err) {
       onError(err.message);
-      onResult('');
+      onResult([]);
     } finally {
       setLoading(false);
     }
@@ -33,16 +48,17 @@ export default function UrlInput({ onResult, onError }) {
 
     try {
       const result = await convertUrls(urls);
-      const parts = result.results.map((r) => {
-        if (r.error) {
-          return `<!-- Error: ${r.url} - ${r.error} -->`;
-        }
-        return `<!-- Fuente: ${r.url} -->\n\n${r.markdown}`;
-      });
-      onResult(parts.join('\n\n---\n\n'));
+      const mapped = result.results.map((r) => ({
+        id: crypto.randomUUID(),
+        filename: filenameFromUrl(r.url),
+        markdown: r.markdown,
+        source: 'url',
+        error: r.error,
+      }));
+      onResult(mapped);
     } catch (err) {
       onError(err.message);
-      onResult('');
+      onResult([]);
     } finally {
       setLoading(false);
     }
@@ -55,10 +71,15 @@ export default function UrlInput({ onResult, onError }) {
 
     try {
       const result = await convertHtml(html.trim());
-      onResult(result.markdown);
+      onResult([{
+        id: crypto.randomUUID(),
+        filename: 'pasted-html',
+        markdown: result.markdown,
+        source: 'html',
+      }]);
     } catch (err) {
       onError(err.message);
-      onResult('');
+      onResult([]);
     } finally {
       setLoading(false);
     }

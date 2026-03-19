@@ -17,6 +17,25 @@ export async function convertFile(file) {
   return res.json();
 }
 
+export async function convertFiles(files) {
+  const formData = new FormData();
+  for (const file of files) {
+    formData.append('files', file);
+  }
+
+  const res = await fetch(`${API_BASE}/convert/files`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Error desconocido' }));
+    throw new Error(err.detail || `Error ${res.status}`);
+  }
+
+  return res.json();
+}
+
 export async function convertUrl(url) {
   const res = await fetch(`${API_BASE}/convert/url`, {
     method: 'POST',

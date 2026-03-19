@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { Upload, FileText, Image, Table, Globe, File, Loader2 } from 'lucide-react';
-import { convertFile } from '../lib/api';
+import { convertFiles } from '../lib/api';
 
 const FILE_ICONS = {
   pdf: FileText,
@@ -20,20 +20,28 @@ const ACCEPTED = '.pdf,.docx,.png,.jpg,.jpeg,.webp,.html,.htm,.txt,.csv';
 export default function FileUploader({ onResult, onError }) {
   const [dragging, setDragging] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [fileName, setFileName] = useState('');
+  const [fileNames, setFileNames] = useState([]);
 
-  const handleFile = useCallback(async (file) => {
-    if (!file) return;
-    setFileName(file.name);
+  const handleFiles = useCallback(async (files) => {
+    if (!files || files.length === 0) return;
+    const fileList = Array.from(files);
+    setFileNames(fileList.map(f => f.name));
     setLoading(true);
     onError('');
 
     try {
-      const result = await convertFile(file);
-      onResult(result.markdown);
+      const result = await convertFiles(fileList);
+      const mapped = result.results.map((r, i) => ({
+        id: crypto.randomUUID(),
+        filename: r.filename.replace(/\.[^.]+$/, ''),
+        markdown: r.markdown,
+        source: 'file',
+        error: r.error,
+      }));
+      onResult(mapped);
     } catch (err) {
       onError(err.message);
-      onResult('');
+      onResult([]);
     } finally {
       setLoading(false);
     }
@@ -42,9 +50,8 @@ export default function FileUploader({ onResult, onError }) {
   const handleDrop = useCallback((e) => {
     e.preventDefault();
     setDragging(false);
-    const file = e.dataTransfer.files?.[0];
-    handleFile(file);
-  }, [handleFile]);
+    handleFiles(e.dataTransfer.files);
+  }, [handleFiles]);
 
   const handleDragOver = useCallback((e) => {
     e.preventDefault();
@@ -54,11 +61,12 @@ export default function FileUploader({ onResult, onError }) {
   const handleDragLeave = useCallback(() => setDragging(false), []);
 
   const handleInput = useCallback((e) => {
-    handleFile(e.target.files?.[0]);
-  }, [handleFile]);
+    handleFiles(e.target.files);
+  }, [handleFiles]);
 
-  const ext = fileName.split('.').pop()?.toLowerCase();
-  const IconComp = FILE_ICONS[ext] || File;
+  const count = fileNames.length;
+  const ext = count === 1 ? fileNames[0].split('.').pop()?.toLowerCase() : null;
+  const IconComp = ext ? (FILE_ICONS[ext] || File) : Upload;
 
   return (
     <div
@@ -76,6 +84,7 @@ export default function FileUploader({ onResult, onError }) {
         id="file-input"
         type="file"
         accept={ACCEPTED}
+        multiple
         onChange={handleInput}
         className="hidden"
       />
@@ -83,20 +92,26 @@ export default function FileUploader({ onResult, onError }) {
       {loading ? (
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="animate-spin text-accent" size={40} />
-          <p className="text-neutral-300">Convirtiendo <strong className="text-cream">{fileName}</strong>...</p>
+          <p className="text-neutral-300">
+            Convirtiendo <strong className="text-cream">{count} {count === 1 ? 'archivo' : 'archivos'}</strong>...
+          </p>
         </div>
-      ) : fileName ? (
+      ) : count > 0 ? (
         <div className="flex flex-col items-center gap-3">
           <IconComp className="text-accent" size={40} />
-          <p className="text-neutral-300"><strong className="text-cream">{fileName}</strong> convertido</p>
-          <p className="text-sm text-neutral-500">Arrastra otro archivo o haz clic para cambiar</p>
+          <p className="text-neutral-300">
+            <strong className="text-cream">
+              {count === 1 ? fileNames[0] : `${count} archivos`}
+            </strong> {count === 1 ? 'convertido' : 'convertidos'}
+          </p>
+          <p className="text-sm text-neutral-500">Arrastra mas archivos o haz clic para cambiar</p>
         </div>
       ) : (
         <div className="flex flex-col items-center gap-3">
           <Upload className="text-neutral-500" size={40} />
-          <p className="text-neutral-300 font-medium">Arrastra un archivo aqui o haz clic para seleccionar</p>
+          <p className="text-neutral-300 font-medium">Arrastra archivos aqui o haz clic para seleccionar</p>
           <p className="text-sm text-neutral-500">
-            PDF, DOCX, PNG, JPG, HTML, TXT, CSV (max. 20MB)
+            PDF, DOCX, PNG, JPG, HTML, TXT, CSV — multiples archivos permitidos
           </p>
         </div>
       )}
