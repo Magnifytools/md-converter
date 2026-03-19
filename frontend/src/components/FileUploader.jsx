@@ -65,10 +65,10 @@ export default function FileUploader({ onResult, onError }) {
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
-      className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer ${
+      className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer ${
         dragging
-          ? 'border-indigo-500 bg-indigo-50'
-          : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
+          ? 'border-accent bg-accent/5'
+          : 'border-neutral-700 hover:border-accent/50 hover:bg-surface-light'
       }`}
       onClick={() => document.getElementById('file-input').click()}
     >
@@ -82,21 +82,21 @@ export default function FileUploader({ onResult, onError }) {
 
       {loading ? (
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="animate-spin text-indigo-500" size={40} />
-          <p className="text-gray-600">Convirtiendo <strong>{fileName}</strong>...</p>
+          <Loader2 className="animate-spin text-accent" size={40} />
+          <p className="text-neutral-300">Convirtiendo <strong className="text-base">{fileName}</strong>...</p>
         </div>
       ) : fileName ? (
         <div className="flex flex-col items-center gap-3">
-          <IconComp className="text-indigo-500" size={40} />
-          <p className="text-gray-700"><strong>{fileName}</strong> convertido</p>
-          <p className="text-sm text-gray-400">Arrastra otro archivo o haz clic para cambiar</p>
+          <IconComp className="text-accent" size={40} />
+          <p className="text-neutral-300"><strong className="text-base">{fileName}</strong> convertido</p>
+          <p className="text-sm text-neutral-500">Arrastra otro archivo o haz clic para cambiar</p>
         </div>
       ) : (
         <div className="flex flex-col items-center gap-3">
-          <Upload className="text-gray-400" size={40} />
-          <p className="text-gray-600 font-medium">Arrastra un archivo aquí o haz clic para seleccionar</p>
-          <p className="text-sm text-gray-400">
-            PDF, DOCX, PNG, JPG, HTML, TXT, CSV (máx. 20MB)
+          <Upload className="text-neutral-500" size={40} />
+          <p className="text-neutral-300 font-medium">Arrastra un archivo aqui o haz clic para seleccionar</p>
+          <p className="text-sm text-neutral-500">
+            PDF, DOCX, PNG, JPG, HTML, TXT, CSV (max. 20MB)
           </p>
         </div>
       )}

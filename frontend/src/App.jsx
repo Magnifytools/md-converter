@@ -10,14 +10,17 @@ export default function App() {
   const [error, setError] = useState('');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4 md:p-8">
+    <div className="min-h-screen bg-dark p-4 md:p-8">
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Header */}
-        <header className="text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-indigo-900 mb-2">
-            File to Markdown
+        <header className="text-center pt-4">
+          <h1 className="text-2xl md:text-3xl font-bold text-base tracking-[0.3em] uppercase font-logo">
+            MD Converter
           </h1>
-          <p className="text-gray-500">
+          <p className="text-[10px] tracking-[0.25em] uppercase text-neutral-500 mt-1">
+            by Magnify
+          </p>
+          <p className="text-neutral-400 text-sm mt-3">
             Convierte archivos y URLs a Markdown en segundos
           </p>
         </header>
@@ -26,10 +29,10 @@ export default function App() {
         <div className="flex justify-center gap-2">
           <button
             onClick={() => setActiveTab('file')}
-            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-colors ${
+            className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors ${
               activeTab === 'file'
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
-                : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                ? 'bg-accent text-dark'
+                : 'bg-surface-light text-neutral-400 hover:text-base'
             }`}
           >
             <FileText size={20} />
@@ -37,10 +40,10 @@ export default function App() {
           </button>
           <button
             onClick={() => setActiveTab('url')}
-            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-colors ${
+            className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors ${
               activeTab === 'url'
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
-                : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                ? 'bg-accent text-dark'
+                : 'bg-surface-light text-neutral-400 hover:text-base'
             }`}
           >
             <Globe size={20} />
@@ -49,7 +52,7 @@ export default function App() {
         </div>
 
         {/* Input area */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <div className="bg-surface rounded-lg p-6">
           {activeTab === 'file' ? (
             <FileUploader onResult={setMarkdown} onError={setError} />
           ) : (
@@ -59,7 +62,7 @@ export default function App() {
 
         {/* Error */}
         {error && (
-          <div className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700">
+          <div className="flex items-center gap-3 p-4 bg-surface border border-red-500/30 rounded-lg text-red-400">
             <AlertCircle size={20} />
             <p>{error}</p>
           </div>
@@ -71,8 +74,8 @@ export default function App() {
         )}
 
         {/* Footer */}
-        <footer className="text-center text-sm text-gray-400 pt-4">
-          File to Markdown v1.0
+        <footer className="text-center text-sm text-neutral-600 pt-4">
+          MD Converter v1.0
         </footer>
       </div>
     </div>

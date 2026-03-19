@@ -1,1 +1,68 @@
 @import "tailwindcss";
+
+@theme {
+  --color-dark: #0A0A0A;
+  --color-base: #F5F5F0;
+  --color-accent: #FFD600;
+  --color-surface: #141414;
+  --color-surface-light: #1A1A1A;
+
+  --font-sans: "Instrument Sans", system-ui, sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-logo: "Instrument Sans", system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #0A0A0A;
+  color: #F5F5F0;
+  font-family: "Instrument Sans", system-ui, sans-serif;
+}
+
+/* Markdown preview dark prose */
+.prose-dark {
+  color: #d4d4d4;
+}
+.prose-dark h1,
+.prose-dark h2,
+.prose-dark h3,
+.prose-dark h4 {
+  color: #F5F5F0;
+}
+.prose-dark a {
+  color: #FFD600;
+}
+.prose-dark code {
+  color: #FFD600;
+  background: #1A1A1A;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.875em;
+}
+.prose-dark pre {
+  background: #141414;
+  border: 1px solid #333;
+  border-radius: 8px;
+}
+.prose-dark pre code {
+  background: transparent;
+  padding: 0;
+}
+.prose-dark blockquote {
+  border-left-color: #FFD600;
+  color: #a3a3a3;
+}
+.prose-dark hr {
+  border-color: #333;
+}
+.prose-dark table th {
+  color: #F5F5F0;
+  border-bottom-color: #333;
+}
+.prose-dark table td {
+  border-bottom-color: #262626;
+}
+.prose-dark strong {
+  color: #F5F5F0;
+}
