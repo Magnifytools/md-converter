@@ -14,7 +14,7 @@ export default function App() {
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Header */}
         <header className="text-center pt-4">
-          <h1 className="text-2xl md:text-3xl font-bold text-base tracking-[0.3em] uppercase font-logo">
+          <h1 className="text-2xl md:text-3xl font-bold text-cream tracking-[0.3em] uppercase font-logo">
             MD Converter
           </h1>
           <p className="text-[10px] tracking-[0.25em] uppercase text-neutral-500 mt-1">
@@ -32,7 +32,7 @@ export default function App() {
             className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors ${
               activeTab === 'file'
                 ? 'bg-accent text-dark'
-                : 'bg-surface-light text-neutral-400 hover:text-base'
+                : 'bg-surface-light text-neutral-400 hover:text-cream'
             }`}
           >
             <FileText size={20} />
@@ -43,7 +43,7 @@ export default function App() {
             className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors ${
               activeTab === 'url'
                 ? 'bg-accent text-dark'
-                : 'bg-surface-light text-neutral-400 hover:text-base'
+                : 'bg-surface-light text-neutral-400 hover:text-cream'
             }`}
           >
             <Globe size={20} />

@@ -83,12 +83,12 @@ export default function FileUploader({ onResult, onError }) {
       {loading ? (
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="animate-spin text-accent" size={40} />
-          <p className="text-neutral-300">Convirtiendo <strong className="text-base">{fileName}</strong>...</p>
+          <p className="text-neutral-300">Convirtiendo <strong className="text-cream">{fileName}</strong>...</p>
         </div>
       ) : fileName ? (
         <div className="flex flex-col items-center gap-3">
           <IconComp className="text-accent" size={40} />
-          <p className="text-neutral-300"><strong className="text-base">{fileName}</strong> convertido</p>
+          <p className="text-neutral-300"><strong className="text-cream">{fileName}</strong> convertido</p>
           <p className="text-sm text-neutral-500">Arrastra otro archivo o haz clic para cambiar</p>
         </div>
       ) : (

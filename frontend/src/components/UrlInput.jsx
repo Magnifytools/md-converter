@@ -112,7 +112,7 @@ export default function UrlInput({ onResult, onError }) {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://ejemplo.com/pagina"
-            className="flex-1 px-4 py-3 bg-dark border border-neutral-700 rounded-lg text-base placeholder-neutral-600 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/20"
+            className="flex-1 px-4 py-3 bg-dark border border-neutral-700 rounded-lg text-cream placeholder-neutral-600 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/20"
             onKeyDown={(e) => e.key === 'Enter' && handleConvertUrl()}
           />
           <button
@@ -131,7 +131,7 @@ export default function UrlInput({ onResult, onError }) {
             onChange={(e) => setBulkUrls(e.target.value)}
             placeholder={"https://ejemplo.com/pagina-1\nhttps://ejemplo.com/pagina-2\nhttps://ejemplo.com/pagina-3"}
             rows={6}
-            className="w-full px-4 py-3 bg-dark border border-neutral-700 rounded-lg text-base placeholder-neutral-600 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/20 font-mono text-sm resize-y"
+            className="w-full px-4 py-3 bg-dark border border-neutral-700 rounded-lg text-cream placeholder-neutral-600 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/20 font-mono text-sm resize-y"
           />
           <div className="flex items-center justify-between">
             <span className="text-sm text-neutral-500">
@@ -154,7 +154,7 @@ export default function UrlInput({ onResult, onError }) {
             onChange={(e) => setHtml(e.target.value)}
             placeholder="Pega aqui el codigo HTML..."
             rows={8}
-            className="w-full px-4 py-3 bg-dark border border-neutral-700 rounded-lg text-base placeholder-neutral-600 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/20 font-mono text-sm resize-y"
+            className="w-full px-4 py-3 bg-dark border border-neutral-700 rounded-lg text-cream placeholder-neutral-600 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/20 font-mono text-sm resize-y"
           />
           <button
             onClick={handleConvertHtml}

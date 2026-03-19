@@ -63,7 +63,7 @@ export default function MarkdownPreview({ markdown, onChange }) {
               type="text"
               value={filename}
               onChange={(e) => setFilename(e.target.value)}
-              className="w-32 focus:outline-none bg-transparent text-base"
+              className="w-32 focus:outline-none bg-transparent text-cream"
               placeholder="nombre"
             />
             <span className="text-neutral-500">.md</span>
