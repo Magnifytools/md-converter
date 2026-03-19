@@ -3,7 +3,7 @@ import { Globe, Code, Loader2, ArrowRight, List } from 'lucide-react';
 import { convertUrl, convertUrls, convertHtml } from '../lib/api';
 
 export default function UrlInput({ onResult, onError }) {
-  const [mode, setMode] = useState('url'); // 'url' | 'bulk' | 'html'
+  const [mode, setMode] = useState('url');
   const [url, setUrl] = useState('');
   const [bulkUrls, setBulkUrls] = useState('');
   const [html, setHtml] = useState('');
@@ -74,8 +74,8 @@ export default function UrlInput({ onResult, onError }) {
           onClick={() => setMode('url')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
             mode === 'url'
-              ? 'bg-indigo-100 text-indigo-700'
-              : 'text-gray-500 hover:bg-gray-100'
+              ? 'bg-accent/15 text-accent'
+              : 'text-neutral-500 hover:bg-surface-light hover:text-neutral-300'
           }`}
         >
           <Globe size={16} />
@@ -85,8 +85,8 @@ export default function UrlInput({ onResult, onError }) {
           onClick={() => setMode('bulk')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
             mode === 'bulk'
-              ? 'bg-indigo-100 text-indigo-700'
-              : 'text-gray-500 hover:bg-gray-100'
+              ? 'bg-accent/15 text-accent'
+              : 'text-neutral-500 hover:bg-surface-light hover:text-neutral-300'
           }`}
         >
           <List size={16} />
@@ -96,8 +96,8 @@ export default function UrlInput({ onResult, onError }) {
           onClick={() => setMode('html')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
             mode === 'html'
-              ? 'bg-indigo-100 text-indigo-700'
-              : 'text-gray-500 hover:bg-gray-100'
+              ? 'bg-accent/15 text-accent'
+              : 'text-neutral-500 hover:bg-surface-light hover:text-neutral-300'
           }`}
         >
           <Code size={16} />
@@ -112,13 +112,13 @@ export default function UrlInput({ onResult, onError }) {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://ejemplo.com/pagina"
-            className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="flex-1 px-4 py-3 bg-dark border border-neutral-700 rounded-lg text-cream placeholder-neutral-600 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/20"
             onKeyDown={(e) => e.key === 'Enter' && handleConvertUrl()}
           />
           <button
             onClick={handleConvertUrl}
             disabled={loading || !url.trim()}
-            className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-2 px-6 py-3 bg-accent text-dark rounded-lg font-medium hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? <Loader2 className="animate-spin" size={18} /> : <ArrowRight size={18} />}
             Convertir
@@ -131,16 +131,16 @@ export default function UrlInput({ onResult, onError }) {
             onChange={(e) => setBulkUrls(e.target.value)}
             placeholder={"https://ejemplo.com/pagina-1\nhttps://ejemplo.com/pagina-2\nhttps://ejemplo.com/pagina-3"}
             rows={6}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent font-mono text-sm resize-y"
+            className="w-full px-4 py-3 bg-dark border border-neutral-700 rounded-lg text-cream placeholder-neutral-600 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/20 font-mono text-sm resize-y"
           />
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-neutral-500">
               {urlCount} {urlCount === 1 ? 'URL' : 'URLs'}
             </span>
             <button
               onClick={handleConvertBulk}
               disabled={loading || urlCount === 0}
-              className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center gap-2 px-6 py-3 bg-accent text-dark rounded-lg font-medium hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {loading ? <Loader2 className="animate-spin" size={18} /> : <ArrowRight size={18} />}
               Convertir {urlCount > 0 ? `${urlCount} URLs` : ''}
@@ -152,14 +152,14 @@ export default function UrlInput({ onResult, onError }) {
           <textarea
             value={html}
             onChange={(e) => setHtml(e.target.value)}
-            placeholder="Pega aquí el código HTML..."
+            placeholder="Pega aqui el codigo HTML..."
             rows={8}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent font-mono text-sm resize-y"
+            className="w-full px-4 py-3 bg-dark border border-neutral-700 rounded-lg text-cream placeholder-neutral-600 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/20 font-mono text-sm resize-y"
           />
           <button
             onClick={handleConvertHtml}
             disabled={loading || !html.trim()}
-            className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-2 px-6 py-3 bg-accent text-dark rounded-lg font-medium hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? <Loader2 className="animate-spin" size={18} /> : <ArrowRight size={18} />}
             Convertir HTML

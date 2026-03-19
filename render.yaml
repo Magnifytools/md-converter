@@ -1,11 +1,10 @@
 services:
   - type: web
-    name: file-to-md
+    name: md-converter
     runtime: docker
     dockerfilePath: ./Dockerfile
     dockerContext: .
-    repo: https://github.com/Magnifytools/magnify-workspace
-    rootDir: file-to-md/file-to-md-app
+    repo: https://github.com/Magnifytools/md-converter
     branch: main
     plan: free
     envVars:
